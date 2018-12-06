@@ -38,21 +38,21 @@ import json
 from threading import Thread
 
 
-def load(location, auto_dump):
+def load(location, auto_dump, set_sig=True):
     '''Return a pickledb object. location is the path to the json file.'''
-    return pickledb(location, auto_dump)
+    return pickledb(location, auto_dump, set_sig)
 
 
 class pickledb(object):
 
     key_string_error = TypeError('Key/name must be a string!')
 
-    def __init__(self, location, auto_dump):
+    def __init__(self, location, auto_dump, set_sig):
         '''Creates a database object and loads the data from the location path.
         If the file does not exist it will be created on the first update.'''
         self.load(location, auto_dump)
         self.dthread = None
-        self.set_sigterm_handler()
+        if set_sig: self.set_sigterm_handler()
 
     def __getitem__(self, item):
         '''Syntax sugar for get()'''
